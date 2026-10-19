@@ -1,7 +1,7 @@
 #include "NonLinearModel.h"
 #include <cmath>
 
-NonLinearModel::NonLinearModel(double _a, double _b) : a(_a), b(_b), y_t(0) {}
+NonLinearModel::NonLinearModel(double _a, double _b) : a(_a), b(_b) {}
 
 double NonLinearModel::step(double u) {
     double y_next = a * std::tanh(y_t) + b * std::pow(u, 3);

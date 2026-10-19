@@ -2,7 +2,7 @@
 #include <cmath>
 
 LinearModel::LinearModel(double _a1, double _a2, double _a3, double _b)
-    : a1(_a1), a2(_a2), a3(_a3), b(_b), y_t(0), y_t1(0), y_t2(0) {
+    : a1(_a1), a2(_a2), a3(_a3), b(_b) {
 }
 
 double LinearModel::step(double u) {
