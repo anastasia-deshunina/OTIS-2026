@@ -17,7 +17,7 @@ void LinearModel::reset() {
     y_t = 0; y_t1 = 0; y_t2 = 0;
 }
 
-bool LinearModel::isStable() {
+bool LinearModel::isStable() const {
     if (std::abs(a3) >= 1) return false;
     if (1 + a1 + a2 + a3 <= 0) return false;
     if (1 - a1 + a2 - a3 <= 0) return false;

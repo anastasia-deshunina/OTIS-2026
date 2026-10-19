@@ -3,8 +3,9 @@
 
 class DiffEqModel : public Model {
 private:
-    double a, dt;
-    double y_t;
+    double a;
+    double dt;
+    double y_t = 0;
 public:
     DiffEqModel(double _a, double _dt);
     double step(double u) override;
