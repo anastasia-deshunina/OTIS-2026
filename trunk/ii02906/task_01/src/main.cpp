@@ -82,7 +82,7 @@ int main() {
     outFile.close();
 
     cout << "\nДанные сохранены в файл results.csv" << endl;
-    system("powershell -Command \"$excel = New-Object -ComObject Excel.Application; $excel.Visible = $true; $workbook = $excel.Workbooks.Open('D:\\OTIS\\OTIS-2026\\results.csv'); $worksheet = $workbook.Worksheets.Item(1); $chart = $worksheet.Shapes.AddChart2(240, 4).Chart; $chart.SetSourceData($worksheet.Range('A1:B11')); $chart.HasTitle = $true; $chart.ChartTitle.Text = 'График модели';\"");
-
+    const char* cmd = R"(powershell -Command "$excel = New-Object -ComObject Excel.Application; $excel.Visible = $true; $workbook = $excel.Workbooks.Open('D:\OTIS\OTIS-2026\results.csv'); $worksheet = $workbook.Worksheets.Item(1); $chart = $worksheet.Shapes.AddChart2(240, 4).Chart; $chart.SetSourceData($worksheet.Range('A1:B11')); $chart.HasTitle = $true; $chart.ChartTitle.Text = 'График модели';")";
+    system(cmd);
     return 0;
 }
