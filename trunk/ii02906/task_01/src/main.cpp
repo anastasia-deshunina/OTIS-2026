@@ -1,9 +1,35 @@
 ﻿#include <iostream>
-#include <fstream>   
+#include <fstream>
 #include <cmath>
+#include <iomanip>
+#include <cstdlib>
 #include "LinearModel.h"
 #include "NonLinearModel.h"
 #include "DiffEqModel.h"
+
+using namespace std;
+
+int getUserChoice() {
+    int choice;
+    cout << "Выберите модель:" << endl;
+    cout << "1 - Линейная (1.6)" << endl;
+    cout << "2 - Нелинейная (2.10)" << endl;
+    cout << "3 - Дифференциальное уравнение (3.4)" << endl;
+    cout << "Ваш выбор (1-3): ";
+    cin >> choice;
+    return choice;
+}
+
+int getSignalChoice() {
+    int choice;
+    cout << "\nВыберите тип входного воздействия:" << endl;
+    cout << "1 - Ступенчатое " << endl;
+    cout << "2 - Импульсное " << endl;
+    cout << "3 - Гармоническое " << endl;
+    cout << "Ваш выбор (1-3): ";
+    cin >> choice;
+    return choice;
+}
 
 double getInput(int tau, int type) {
     if (type == 1) return 1.0;
@@ -13,43 +39,50 @@ double getInput(int tau, int type) {
 }
 
 int main() {
+    setlocale(0, "");
+    int modelChoice = getUserChoice();
+    int signalChoice = getSignalChoice();
+
+    int n;
+    cout << "\nВведите количество шагов симуляции: ";
+    cin >> n;
+
     LinearModel linModel(0.5, 0.2, 0.1, 1.0);
-    // Проверка устойчивости
-    if (linModel.isStable()) {
-        std::cout << "System is STABLE.\n";
-    }
-    else {
-        std::cout << "WARNING: System is UNSTABLE!\n";
-    }
     NonLinearModel nonlinModel(0.5, 0.5);
     DiffEqModel diffModel(0.1, 0.01);
 
-    // Открываем файл для записи
-    std::ofstream outFile("results.csv");
+    ofstream outFile("results.csv");
+    outFile << "Step;Input u;Output y\n";
 
-    // Записываем заголовок в файл
-    outFile << "Step,Input u,Linear y,Nonlinear y,DiffEq y\n";
+    cout << "\n" << setw(6) << "Step" << setw(12) << "Input u" << setw(15) << "Output y" << endl;
 
-    std::cout << "Step\tInput u\tLinear y\tNonlinear y\tDiffEq y\n";
-    int n = 10;
     for (int tau = 0; tau < n; ++tau) {
-        // Выбор типа входного воздействия: 1 - ступенчатое, 2 - импульсное, 3 - гармоническое
-        int inputType = 1; // Можно поменять на 2 или 3
-        double u = getInput(tau, inputType);
+        double u = getInput(tau, signalChoice);
+        double y = 0.0;
 
-        double y_lin = linModel.step(u);
-        double y_non = nonlinModel.step(u);
-        double y_diff = diffModel.step(u);
+        if (modelChoice == 1) {
+            if (tau == 0 && !linModel.isStable()) {
+                cout << "WARNING: System is UNSTABLE!" << endl;
+            }
+            y = linModel.step(u);
+        }
+        else if (modelChoice == 2) {
+            y = nonlinModel.step(u);
+        }
+        else if (modelChoice == 3) {
+            y = diffModel.step(u);
+        }
 
-        // Вывод в консоль
-        std::cout << tau << "\t" << u << "\t\t" << y_lin << "\t\t" << y_non << "\t\t" << y_diff << "\n";
+        cout << fixed << setprecision(6);
+        cout << setw(6) << tau << setw(12) << u << setw(15) << y << endl;
 
-        // Вывод в файл CSV
-        outFile << tau << "," << u << "," << y_lin << "," << y_non << "," << y_diff << "\n";
+        outFile << tau << ";" << u << ";" << y << "\n";
     }
 
     outFile.close();
-    std::cout << "\nData saved to results.csv\n";
+
+    cout << "\nДанные сохранены в файл results.csv" << endl;
+    system("powershell -Command \"$excel = New-Object -ComObject Excel.Application; $excel.Visible = $true; $workbook = $excel.Workbooks.Open('D:\\OTIS\\OTIS-2026\\results.csv'); $worksheet = $workbook.Worksheets.Item(1); $chart = $worksheet.Shapes.AddChart2(240, 4).Chart; $chart.SetSourceData($worksheet.Range('A1:B11')); $chart.HasTitle = $true; $chart.ChartTitle.Text = 'График модели';\"");
 
     return 0;
 }
