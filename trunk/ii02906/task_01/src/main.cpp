@@ -3,6 +3,7 @@
 #include <cmath>
 #include <iomanip>
 #include <cstdlib>
+#include <string>
 #include "LinearModel.h"
 #include "NonLinearModel.h"
 #include "DiffEqModel.h"
@@ -23,9 +24,9 @@ int getUserChoice() {
 int getSignalChoice() {
     int choice;
     cout << "\nВыберите тип входного воздействия:" << endl;
-    cout << "1 - Ступенчатое " << endl;
-    cout << "2 - Импульсное " << endl;
-    cout << "3 - Гармоническое " << endl;
+    cout << "1 - Ступенчатое" << endl;
+    cout << "2 - Импульсное" << endl;
+    cout << "3 - Гармоническое" << endl;
     cout << "Ваш выбор (1-3): ";
     cin >> choice;
     return choice;
@@ -78,11 +79,20 @@ int main() {
 
         outFile << tau << ";" << u << ";" << y << "\n";
     }
-
     outFile.close();
 
-    cout << "\nДанные сохранены в файл results.csv" << endl;
-    const char* cmd = R"(powershell -Command "$excel = New-Object -ComObject Excel.Application; $excel.Visible = $true; $workbook = $excel.Workbooks.Open('D:\OTIS\OTIS-2026\results.csv'); $worksheet = $workbook.Worksheets.Item(1); $chart = $worksheet.Shapes.AddChart2(240, 4).Chart; $chart.SetSourceData($worksheet.Range('A1:B11')); $chart.HasTitle = $true; $chart.ChartTitle.Text = 'График модели';")";
-    system(cmd);
+    // Вызов Python для построения графика
+    string plotCmd = "python trunk/ii02906/task_01/plot_results.py results.csv result_plot.png";
+
+    int result = system(plotCmd.c_str());
+
+    if (result == 0) {
+
+        system("start result_plot.png");
+    }
+    else {
+        cout << "[WARNING] Произошла ошибка при построении графика." << endl;
+    }
+
     return 0;
 }
