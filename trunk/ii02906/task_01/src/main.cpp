@@ -84,10 +84,7 @@ int main() {
     // Вызов Python для построения графика
     string plotCmd = "python trunk/ii02906/task_01/plot_results.py results.csv result_plot.png";
 
-    int result = system(plotCmd.c_str());
-
-    if (result == 0) {
-
+    if (system(plotCmd.c_str()) == 0) {
         system("start result_plot.png");
     }
     else {
