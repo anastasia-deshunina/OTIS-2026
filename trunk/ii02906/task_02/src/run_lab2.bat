@@ -1,29 +1,31 @@
 @echo off
-echo ===========================
+echo ========================================
 echo Compiling and running Lab 2 tests
-echo ===========================
+echo ========================================
 
 cd /d "%~dp0"
 
 if not exist build mkdir build
 cd build
 
-cmake -S .. -B . -G "Visual Studio 17 2022" -A x64 "-DCMAKE_POLICY_VERSION_MINIMUM=3.10"
+set CMAKE_POLICY_VERSION_MINIMUM=3.5
+
+cmake -S .. -B . -G "Visual Studio 17 2022" -A x64
 cmake --build . --config Debug
 
-echo ===========================
+echo ========================================
 echo Running Google Test...
-echo ===========================
+echo ========================================
 .\Debug\run_tests.exe
 
-echo ===========================
+echo ========================================
 echo Generating coverage report...
-echo ===========================
-OpenCppCoverage.exe --sources=D:\OTIS\OTIS-2026\trunk\ii02906\task_01\src -- .\Debug\run_tests.exe
+echo ========================================
+OpenCppCoverage.exe --sources "D:\OTIS\OTIS-2026\trunk\ii02906\task_02\src" --excluded_sources "D:\OTIS\OTIS-2026\trunk\ii02906\task_02\src\build" -- .\Debug\run_tests.exe
 
-echo ===========================
+echo ========================================
 echo Opening coverage report in browser...
-echo ===========================
+echo ========================================
 for /d %%i in (CoverageReport*) do start "" "%%i\index.html"
 
 cd ..
