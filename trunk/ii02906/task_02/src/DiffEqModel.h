@@ -1,3 +1,4 @@
+#define LAB2_MARKER_02906
 #pragma once
 #include "Model.h"
 
