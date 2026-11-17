@@ -4,11 +4,11 @@
 
 class DiffEqModel : public Model {
 private:
-    double a;
-    double dt;
+    double k_coef;
+    double step_dt;
     double y_t = 0;
 public:
-    DiffEqModel(double _a, double _dt);
+    DiffEqModel(double k, double dt);
     double step(double u) override;
     void reset() override;
 };

@@ -1,18 +1,13 @@
 #define LAB2_MARKER_02906
-// Laboratory work 2
-#include "LinearModel.h"
 #include "NonLinearModel.h"
 #include <cmath>
 
-NonLinearModel::NonLinearModel(double _a, double _b) : a(_a), b(_b) 
-{}
+NonLinearModel::NonLinearModel(double a_val, double b_val) : alpha(a_val), beta(b_val) {}
 
 double NonLinearModel::step(double u) {
-    double y_next = a * std::tanh(y_t) + b * std::pow(u, 3);
-    y_t = y_next;
-    return y_next;
+    double res = alpha * std::tanh(y_t) + beta * std::pow(u, 3);
+    y_t = res;
+    return res;
 }
 
-void NonLinearModel::reset() { y_t = 0;
-
-}
+void NonLinearModel::reset() { y_t = 0; }
