@@ -1,8 +1,11 @@
+#define LAB2_MARKER_02906
 // Laboratory work 2
 #include "LinearModel.h"
 #include "DiffEqModel.h"
 
-DiffEqModel::DiffEqModel(double _a, double _dt) : a(_a), dt(_dt) {}
+DiffEqModel::DiffEqModel(double _a, double _dt) : a(_a), dt(_dt) 
+{
+}
 
 double DiffEqModel::step(double u) {
     double y_next = y_t + dt * (-a * y_t * y_t);

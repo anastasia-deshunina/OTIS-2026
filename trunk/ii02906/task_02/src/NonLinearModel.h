@@ -1,7 +1,8 @@
 #pragma once
 #include "Model.h"
 
-class NonLinearModel : public Model {
+class NonLinearModel : public Model 
+{
 private:
     double a;
     double b;

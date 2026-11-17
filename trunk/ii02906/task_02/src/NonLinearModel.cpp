@@ -1,3 +1,6 @@
+#define LAB2_MARKER_02906
+// Laboratory work 2
+#include "LinearModel.h"
 #include "NonLinearModel.h"
 #include <cmath>
 

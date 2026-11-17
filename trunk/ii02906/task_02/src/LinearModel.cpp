@@ -1,3 +1,6 @@
+#define LAB2_MARKER_02906
+// Laboratory work 2
+#include "LinearModel.h"
 #include "LinearModel.h"
 #include <cmath>
 
@@ -14,13 +17,11 @@ double LinearModel::step(double u) {
 }
 
 void LinearModel::reset() {
-    y_t = 0; y_t1 = 0; y_t2 = 0;
-}
-
-bool LinearModel::isStable() const {
+    y_t = 0; y_t1 = 0; y_t2 = 0;}
+ bool LinearModel::isStable() const {
     if (std::abs(a3) >= 1) return false;
     if (1 + a1 + a2 + a3 <= 0) return false;
     if (1 - a1 + a2 - a3 <= 0) return false;
     if (std::abs(a3 * a3 - 1) <= std::abs(a3 * a1 - a2)) return false;
-    return true;
+    return  true;
 }
