@@ -1,3 +1,5 @@
+// Laboratory work 2
+#include "LinearModel.h"
 #include "DiffEqModel.h"
 
 DiffEqModel::DiffEqModel(double _a, double _dt) : a(_a), dt(_dt) {}
