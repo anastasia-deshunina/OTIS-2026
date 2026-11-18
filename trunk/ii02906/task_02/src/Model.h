@@ -11,5 +11,4 @@ public:
     virtual double step(double u) =  0;
     // метод для сброса состояния модели в начальное
     virtual void reset() = 0;
-    virtual void lab2_extra_method() {}
 };
